@@ -1,330 +1,73 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>企业网站首页</title>
-<style>
-/* ===== 基础样式 ===== */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  text-align: center;
-  color: #333;
-}
-a { text-decoration: none; color: inherit; }
-
-/* ===== 顶部导航 ===== */
-header {
-  background-color: green;
-  color: white;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-}
-header .menu a {
-  margin-left: 15px;
-  color: white;
-}
-
-/* ===== 轮播图 ===== */
-.carousel {
-  position: relative;
-  margin-top: 10px;
-  width: 100%;
-  height: 320px;
-  background: orange;
-  overflow: hidden;
-}
-.carousel img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-.carousel .prev, .carousel .next, .carousel .zoom-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-.carousel .prev { left: 10px; }
-.carousel .next { right: 10px; }
-.carousel .zoom-btn { right: 50px; top: 10px; }
-
-/* ===== 产品图册 ===== */
-.product-gallery {
-  padding: 20px;
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  justify-items: center;
-}
-.gallery-item {
-  width: 100%;
-  max-width: 180px;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  border-radius: 12px;
-  position: relative;
-  cursor: pointer;
-}
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-.more-btn {
-  margin-top: 15px;
-  padding: 8px 15px;
-  background: green;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* ===== 悬浮咨询按钮 ===== */
-.floating-btn {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  background-color: green;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 30px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-  cursor: grab;
-  z-index: 1000;
-}
-
-/* ===== 幸运转盘 ===== */
-.wheel-container {
-  margin: 30px auto;
-  width: 300px;
-  height: 300px;
-  position: relative;
-}
-#wheelCanvas {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 4px solid green;
-}
-.spin-btn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* ===== 图片放大层 ===== */
-.zoom-overlay {
-  display: none;
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-.zoom-overlay img {
-  width: 60%;
-  max-width: 800px;
-  border-radius: 12px;
-  transform: scale(1);
-  transition: transform 0.3s;
-}
-
-/* ===== 移动端 ===== */
-@media(max-width:768px){
-  .gallery-grid { grid-template-columns: repeat(2,1fr); }
-  .wheel-container { width: 200px; height: 200px; }
-  .carousel img { height: 120px; }
-  .zoom-overlay img { width: 90%; }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>公司展示 - 首页</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header class="topbar">
+    <div class="logo">公司Logo</div>
+    <nav class="nav">
+      <a href="index.html">首页</a>
+      <a href="products.html">产品中心</a>
+      <a href="about.html">品牌介绍</a>
+      <a href="join.html">商家加盟</a>
+      <a href="contact.html">联系我们</a>
+    </nav>
+  </header>
 
-<!-- 顶部导航 -->
-<header>
-  <div class="logo">企业Logo</div>
-  <div class="menu">
-    <a href="#products">产品中心</a>
-    <a href="#brand">品牌介绍</a>
-    <a href="#contact">联系我们</a>
-    <a href="#login">登录注册</a>
+  <main class="container">
+    <section class="carousel-section">
+      <div id="carousel" class="carousel">
+        <button class="carousel-btn prev" id="prevBtn">‹</button>
+        <div class="carousel-track" id="track">
+          <img src="https://via.placeholder.com/960x300/28a745/ffffff?text=Banner+1" alt="banner1" class="carousel-item">
+          <img src="https://via.placeholder.com/960x300/ffa500/ffffff?text=Banner+2" alt="banner2" class="carousel-item">
+          <img src="https://via.placeholder.com/960x300/2ecc71/ffffff?text=Banner+3" alt="banner3" class="carousel-item">
+          <img src="https://via.placeholder.com/960x300/ffbb33/ffffff?text=Banner+4" alt="banner4" class="carousel-item">
+          <img src="https://via.placeholder.com/960x300/17a2b8/ffffff?text=Banner+5" alt="banner5" class="carousel-item">
+        </div>
+        <button class="carousel-btn next" id="nextBtn">›</button>
+      </div>
+    </section>
+
+    <section class="hot-products">
+      <h2>热门产品</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200/eeeeee/333333?text=产品A" class="product-thumb" data-full="https://via.placeholder.com/1200x800/eeeeee/333333?text=产品A">
+          <h3>产品A</h3>
+          <p>简介：高性价比，适合普通住宅。</p>
+        </div>
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200/ddd8c3/333333?text=产品B" class="product-thumb" data-full="https://via.placeholder.com/1200x800/ddd8c3/333333?text=产品B">
+          <h3>产品B</h3>
+          <p>简介：现代简约风格，易于搭配。</p>
+        </div>
+        <div class="product-card">
+          <img src="https://via.placeholder.com/300x200/ccddee/333333?text=产品C" class="product-thumb" data-full="https://via.placeholder.com/1200x800/ccddee/333333?text=产品C">
+          <h3>产品C</h3>
+          <p>简介：耐用材料，适合长期使用。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 昆山晟派完整生态家装 — 地址：昆山 · 展厅：苏州 · 客服电话：<a href="tel:+8613800000000">+86 138 0000 0000</a></div>
+  </footer>
+
+  <!-- Image Modal -->
+  <div id="imgModal" class="img-modal" aria-hidden="true">
+    <div class="img-modal-inner">
+      <button id="closeModal" class="modal-close">×</button>
+      <img id="modalImg" src="" alt="放大图片">
+    </div>
   </div>
-</header>
 
-<!-- 轮播图 -->
-<div class="carousel">
-  <img src="https://picsum.photos/600/160?1" id="carouselImage">
-  <button class="prev" onclick="prevSlide()">◀</button>
-  <button class="next" onclick="nextSlide()">▶</button>
-  <button class="zoom-btn" onclick="zoomImage()">🔍</button>
-</div>
-
-<!-- 产品图册 -->
-<section class="product-gallery" id="products">
-  <h3>产品图册</h3>
-  <div class="gallery-grid" id="galleryGrid">
-    <div class="gallery-item"><img src="https://picsum.photos/200/113?1"></div>
-    <div class="gallery-item"><img src="https://picsum.photos/200/113?2"></div>
-    <div class="gallery-item"><img src="https://picsum.photos/200/113?3"></div>
-    <div class="gallery-item"><img src="https://picsum.photos/200/113?4"></div>
-    <div class="gallery-item" style="display:none;"><img src="https://picsum.photos/200/113?5"></div>
-    <div class="gallery-item" style="display:none;"><img src="https://picsum.photos/200/113?6"></div>
-    <div class="gallery-item" style="display:none;"><img src="https://picsum.photos/200/113?7"></div>
-    <div class="gallery-item" style="display:none;"><img src="https://picsum.photos/200/113?8"></div>
-  </div>
-  <div class="more-btn" onclick="showMore()">点击更多</div>
-</section>
-
-<!-- 悬浮咨询按钮 -->
-<div class="floating-btn" id="floatBtn">📞 咨询</div>
-
-<!-- 幸运转盘 -->
-<section>
-  <h3>幸运转盘</h3>
-  <div class="wheel-container">
-    <canvas id="wheelCanvas"></canvas>
-  </div>
-  <button class="spin-btn" onclick="spinWheel()">开始抽奖</button>
-</section>
-
-<!-- 图片放大层 -->
-<div class="zoom-overlay" id="zoomOverlay">
-  <img id="zoomedImage" src="">
-</div>
-
-<script>
-/* ===== 轮播图 ===== */
-const carouselImages = [
-  "https://picsum.photos/600/160?1",
-  "https://picsum.photos/600/160?2",
-  "https://picsum.photos/600/160?3",
-  "https://picsum.photos/600/160?4",
-  "https://picsum.photos/600/160?5"
-];
-let currentSlide = 0;
-const carouselImage = document.getElementById("carouselImage");
-function showSlide(index){
-  carouselImage.src = carouselImages[index];
-}
-function prevSlide(){
-  currentSlide = (currentSlide-1+carouselImages.length)%carouselImages.length;
-  showSlide(currentSlide);
-}
-function nextSlide(){
-  currentSlide = (currentSlide+1)%carouselImages.length;
-  showSlide(currentSlide);
-}
-function zoomImage(){
-  const zoomOverlay = document.getElementById("zoomOverlay");
-  const zoomedImage = document.getElementById("zoomedImage");
-  if(zoomOverlay.style.display==="flex"){
-    zoomOverlay.style.display="none";
-  }else{
-    zoomedImage.src = carouselImages[currentSlide];
-    zoomOverlay.style.display="flex";
-  }
-}
-document.getElementById("zoomOverlay").onclick = function(){ this.style.display="none"; };
-
-/* ===== 产品图册更多 ===== */
-function showMore(){
-  const items = document.querySelectorAll("#galleryGrid .gallery-item");
-  items.forEach(item=>item.style.display="block");
-}
-
-/* ===== 产品图册放大 ===== */
-document.querySelectorAll(".gallery-item img").forEach(img=>{
-  img.addEventListener("click",function(){
-    const overlay = document.getElementById("zoomOverlay");
-    const zoomedImage = document.getElementById("zoomedImage");
-    zoomedImage.src = this.src;
-    overlay.style.display="flex";
-  });
-});
-
-/* ===== 悬浮咨询按钮 ===== */
-const floatBtn = document.getElementById("floatBtn");
-let isDrag=false,offsetX,offsetY;
-floatBtn.addEventListener("mousedown",e=>{
-  isDrag=true;
-  offsetX=e.offsetX; offsetY=e.offsetY;
-});
-document.addEventListener("mousemove",e=>{
-  if(isDrag){
-    floatBtn.style.left=(e.pageX-offsetX)+"px";
-    floatBtn.style.top=(e.pageY-offsetY)+"px";
-    floatBtn.style.right="auto";
-    floatBtn.style.bottom="auto";
-  }
-});
-document.addEventListener("mouseup",()=>isDrag=false);
-floatBtn.addEventListener("click",()=>window.location.href="tel:15221853908");
-
-/* ===== 幸运转盘 ===== */
-const wheelCanvas = document.getElementById("wheelCanvas");
-const ctx = wheelCanvas.getContext("2d");
-const prizes = ["奖品A","奖品B","奖品C","奖品D","奖品E","谢谢参与","谢谢参与","谢谢参与","谢谢参与"];
-const colors = ["#ff6666","#66ff66","#6666ff","#ffcc66","#cc66ff","#aaaaaa","#aaaaaa","#aaaaaa","#aaaaaa"];
-wheelCanvas.width = wheelCanvas.height = 300;
-function drawWheel(){
-  const arc = 2*Math.PI/prizes.length;
-  for(let i=0;i<prizes.length;i++){
-    ctx.beginPath();
-    ctx.moveTo(150,150);
-    ctx.arc(150,150,150,i*arc,(i+1)*arc);
-    ctx.fillStyle = colors[i];
-    ctx.fill();
-    ctx.save();
-    ctx.translate(150,150);
-    ctx.rotate((i+0.5)*arc);
-    ctx.fillStyle="#000";
-    ctx.font="16px Arial";
-    ctx.fillText(prizes[i],70,0);
-    ctx.restore();
-  }
-}
-drawWheel();
-function spinWheel(){
-  let spins = Math.random()*5000 + 3000;
-  let start = Date.now();
-  let duration = 3000;
-  let angle = 0;
-  function animate(){
-    let now = Date.now();
-    let progress = Math.min((now-start)/duration,1);
-    ctx.clearRect(0,0,300,300);
-    ctx.save();
-    ctx.translate(150,150);
-    ctx.rotate((spins*progress)*Math.PI/180);
-    ctx.translate(-150,-150);
-    drawWheel();
-    ctx.restore();
-    if(progress<1) requestAnimationFrame(animate);
-    else alert("抽中了: "+prizes[Math.floor(Math.random()*prizes.length)]);
-  }
-  animate();
-}
-</script>
+  <script src="js/script.js"></script>
 </body>
 </html>
