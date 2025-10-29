@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>后台 - 线索管理</title>
+<style>
+  body{font-family:Arial,Helvetica;background:#0b1220;color:#fff;margin:0;padding:0}
+  header{padding:16px;background:linear-gradient(90deg,#081827,#0b1220)}
+  .container{padding:18px;max-width:1100px;margin:0 auto}
+  .controls{display:flex;gap:8px;align-items:center}
+  select,input{padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff}
+  table{width:100%;border-collapse:collapse;margin-top:12px}
+  th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:left;font-size:14px}
+  .btn{padding:6px 10px;border-radius:6px;border:none;background:#ff6b99;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+<header><div style="max-width:1100px;margin:0 auto"><h2 style="margin:0">线索管理后台</h2></div></header>
+<div class="container">
+  <div class="controls">
+    <label>最小评分：
+      <input type="number" id="minScore" value="0" min="0" max="100" style="width:80px">
+    </label>
+    <label>来源：
+      <select id="filterSource">
+        <option value="">全部</option>
+        <option>抖音</option><option>小红书</option><option>百度</option><option>线下</option><option>未知</option>
+      </select>
+    </label>
+    <button class="btn" id="btnFilter">筛选</button>
+    <button class="btn" id="btnRefresh">刷新</button>
+    <button class="btn" id="btnExport">导出 CSV</button>
+  </div>
+
+  <table id="tbl">
+    <thead><tr>
+      <th>ID</th><th>姓名</th><th>电话</th><th>城市</th><th>来源</th><th>意向</th><th>分数</th><th>时间</th><th>操作</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+async function loadLeads(minScore=0, source=''){
+  const q = new URLSearchParams();
+  if(minScore) q.set('minScore', minScore);
+  if(source) q.set('source', source);
+  const res = await fetch('/api/leads?' + q.toString());
+  const arr = await res.json();
+  const tbody = document.querySelector('#tbl tbody');
+  tbody.innerHTML = '';
+  arr.forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.id}</td>
+      <td>${r.name||''}</td>
+      <td>${r.phone||''}</td>
+      <td>${r.city||''}</td>
+      <td>${r.source||''}</td>
+      <td style="max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.intent||r.message||''}</td>
+      <td>${r.score||0}</td>
+      <td>${new Date(r.created_at).toLocaleString()}</td>
+      <td>
+        <button class="btn" onclick="deleteLead(${r.id})">删除</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+async function deleteLead(id){
+  if(!confirm('确定删除该线索？')) return;
+  await fetch('/api/leads/'+id, { method:'DELETE' });
+  loadLeads(document.getElementById('minScore').value, document.getElementById('filterSource').value);
+}
+
+document.getElementById('btnFilter').addEventListener('click', ()=>{
+  loadLeads(document.getElementById('minScore').value, document.getElementById('filterSource').value);
+});
+document.getElementById('btnRefresh').addEventListener('click', ()=> loadLeads());
+document.getElementById('btnExport').addEventListener('click', ()=> {
+  window.location = '/api/leads-export';
+});
+
+// 首次加载
+loadLeads();
+</script>
+</body>
+</html>

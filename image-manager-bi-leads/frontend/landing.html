@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>落地页 - 提交需求</title>
+<style>
+  body{font-family:Arial,Helvetica;background:linear-gradient(135deg,#0f1724,#0b1220);color:#fff;margin:0;padding:0}
+  .wrap{max-width:720px;margin:40px auto;padding:24px;background:rgba(255,255,255,0.03);border-radius:12px}
+  h1{margin:0 0 12px}
+  label{display:block;margin-top:10px;font-size:14px}
+  input,textarea,select{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);color:#fff}
+  button{margin-top:12px;padding:10px 16px;border-radius:8px;border:none;background:#ff6b99;color:#fff;cursor:pointer}
+  .note{font-size:13px;color:#aaa;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>联系我们 — 免费咨询</h1>
+  <p class="note">留下您的联系方式，我们会尽快联系您。</p>
+
+  <form id="leadForm">
+    <label>姓名<input name="name" placeholder="你的姓名"></label>
+    <label>电话<input name="phone" required placeholder="手机或座机"></label>
+    <label>城市/小区<input name="city" placeholder="所在城市或小区"></label>
+    <label>来源<select name="source">
+      <option value="未知">未知</option>
+      <option value="抖音">抖音</option>
+      <option value="小红书">小红书</option>
+      <option value="百度">百度</option>
+      <option value="线下">线下</option>
+    </select></label>
+    <label>意向（简要描述）<input name="intent" placeholder="例如：想装修三房，预算20万"></label>
+    <label>补充信息（可选）<textarea name="message" rows="4" placeholder="补充更多信息，例如交付时间、风格偏好"></textarea></label>
+    <label>附件（可选）<input type="file" name="attachment"></label>
+    <button type="submit">提交需求</button>
+  </form>
+
+  <p class="note" id="result"></p>
+</div>
+
+<script>
+const form = document.getElementById('leadForm');
+const result = document.getElementById('result');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  try{
+    const res = await fetch('/api/lead', { method:'POST', body: fd });
+    const j = await res.json();
+    if(j.success){
+      result.innerText = `提交成功！线索评分：${j.score}。我们会尽快联系您。`;
+      form.reset();
+    } else {
+      result.innerText = '提交失败，请稍后重试。';
+    }
+  }catch(err){
+    console.error(err);
+    result.innerText = '网络错误，提交失败。';
+  }
+});
+</script>
+</body>
+</html>
